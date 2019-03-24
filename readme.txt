@@ -1,0 +1,64 @@
+L. Larrabee Strow
+
+
+Table of Contents
+_________________
+
+1 Overview
+2 Directories
+.. 2.1 src
+.. 2.2 static
+.. 2.3 test
+
+
+1 Overview
+==========
+
+  This package contains the Matlab source code to convert L1c radiances
+  to L1c radiances with AIRS frequency drifts removed and Doppler shifts
+  removed.  The spectra are shifted to a set of frequencies that are in
+  the variable fl1c.
+
+  This package is under git version control (for L. Strow only I
+  imagine).  It can be found at
+  [https://github.com/strow/jpl_nu_cal_packages.git].  I hope to keep
+  this git repo as current as possible to what is used in the JPL
+  operational code, but it will likely diverge...
+
+  Note that the test file is not included in the git repo since it is
+  large.
+
+
+2 Directories
+=============
+
+2.1 src
+~~~~~~~
+
+  Contains the source code
+
+
+2.2 static
+~~~~~~~~~~
+
+  Contains the static data files need for this algorithm.  This can be
+  cleaned up a lot, but for now I am leaving everything close to what I
+  use for developing this algorithm.
+
+
+2.3 test
+~~~~~~~~
+
+  Contains the main_pgm.m that shows how to call the frequency
+  calibration main subroutine.  Also included is a L1c test file, and a
+  number of plots of output.  Most of main_pgm.m is just generating
+  these plots, etc.
+
+  The figure outputs are in the Figs directory.  Top level has the
+  Matlab .fig files.  Directory Pdf has the .pdf output (none for 2-d
+  images) and directory Png has the .png outputs.
+
+  Testing was done using the L1c file
+  - AIRS.2017.11.09.226.L1C.AIRS_Rad.v6.1.2.0.G17314105227.hdf
+
+  I plan on doing a day or two of testing in the future.
