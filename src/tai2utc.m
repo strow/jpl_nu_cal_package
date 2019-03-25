@@ -38,19 +38,27 @@
 
 function utc58 = tai2utc(tai58, sfile)
 
-% default leap-seconds file
-if nargin == 1
-  sfile = '/asl/packages/ccast/inst_data/leap-seconds.list';
-end
+%% Dat in leap_tab.mat derived from code below, easy to add next leap second
+%% 
+% % default leap-seconds file
+% if nargin == 1
+%   sfile = 'static/leap-seconds.list';
+% end
+% 
+% % read the leap seconds file
+% fid = fopen(sfile, 'r');
+% if fid ~= -1
+%   leap_tab = cell2mat(textscan(fid, '%d64%d64', 'commentstyle', '#'));
+%   leap_tab = double(leap_tab);
+%   fclose(fid);
+% else
+%   error(sprintf('can not open %s\n', sfile))
+% end
+% 
 
-% read the leap seconds file
-fid = fopen(sfile, 'r');
-if fid ~= -1
-  leap_tab = cell2mat(textscan(fid, '%d64%d64', 'commentstyle', '#'));
-  leap_tab = double(leap_tab);
-  fclose(fid);
-else
-  error(sprintf('can not open %s\n', sfile))
+persistent leap_tab
+if isempty(leap_tab)
+   load leap_tab
 end
 
 % zero row for pre 1972 dates

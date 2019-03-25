@@ -1,36 +1,21 @@
 function [radiances_nucal_scan] = cal_l1c_freqs_and_doppler(fn);
-
-% L1c Frequency Shifts, returns radiances_nucal
-
-%================================== Read in L1c ==========================
-%fn = 'AIRS.2017.11.09.226.L1C.AIRS_Rad.v6.1.2.0.G17314105227.hdf';
-
+%
+% Returns L1c radiances (90x135) corrected for frequency shift due to the 
+% instrument drifts and the Doppler effect.  The returned frequencies are
+% sampled to the official L1c frequency scale.
 
 %======== Load in data that will be presistent ==============
-% The below is messy, but it mirrors how I got there.  We can change
-% this to just loading fl1c if you like.
-
-% Get my L1c freqs
-persistent g
-if isempty(g)
-   g = load('Jan20_2010.mat');   % This file has the L1c SRFs too!
-end
-% Get L1c channel indices (above is sarta ID's)
-persistent g2
-if isempty(g2)
-   g2 = load('sarta_chans_for_l1c');
-end
-% The official channels, we interpolate to this scale
+% The official l1c channels, we interpolate to this scale
 persistent fl1c
 if isempty(fl1c)
-   fl1c = g.freq(g2.ichan);
+   load fl1c
 end
+
 % Indices for swtiching from l1c to l1b and back
 persistent   l1b_ind_in_l1c  l1c_ind_for_l1b
 if isempty(l1b_ind_in_l1c ) | isempty(l1c_ind_for_l1b)
    load indices_of_l1b_in_l1c
 end
-
 %======================== Read L1c File Vars Needed =====================
 
 %% No error trapping yet for partial granules, not sure if this is an issue

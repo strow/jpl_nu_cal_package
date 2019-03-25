@@ -1,7 +1,5 @@
 function dnu_ppm = doppler_jpl(scan_node_type,xtrack,satzen,satazi,sat_lat);
 % Compute Doppler shift of spectrum
-%
-% ASSUMES p.udef(13,:) is the satellite subpoint latitude, idesc is p.iudef(4,:)
 
 omega = 7.292E-5;  % radians/sec, earth's rotational velocity
 Re = 6.3781E8;     % cm, earth radius

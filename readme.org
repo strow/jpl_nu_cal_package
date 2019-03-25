@@ -11,11 +11,11 @@ Note that the test file is not included in the git repo since it is large.
 
 ** src 
 
-Contains the source code
+Contains the source code.  
 
 ** static
 
-Contains the static data files need for this algorithm.  This can be cleaned up a lot, but for now I am leaving everything close to what I use for developing this algorithm.
+Contains the static data files need for this algorithm.  
 
 ** test
 
@@ -26,6 +26,8 @@ The figure outputs are in the Figs directory.  Top level has the Matlab .fig fil
 Testing was done using the L1c file 
   - AIRS.2017.11.09.226.L1C.AIRS_Rad.v6.1.2.0.G17314105227.hdf
 
+* Comments
+
 I plan on doing a day or two of testing in the future.  
 
-
+The I/O is embedded in the main routine, cal_l1c_freqs_and_doppler.m.  It should be quite easy to pull that into the main program or a subroutine.  Since Matlab can write binary files (or hdf or netcdf), I would suggest (not knowing anything about a NASA DIS PGE) to just run this matlab code from a shell "escape" in the main L1c program before writing out the existing L1c file, then read in the new radiances, and then write out the final L1c file as you do know with modified radiances.  This would minimize the amount of new code that has to be written.  But, no idea if that is possible.

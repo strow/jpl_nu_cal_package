@@ -9,7 +9,9 @@ addpath ../static
 fn = 'AIRS.2017.11.09.226.L1C.AIRS_Rad.v6.1.2.0.G17314105227.hdf';
 
 % Frequency Calibrated Radiances
+tic
 radiances_cal = cal_l1c_freqs_and_doppler(fn);
+toc
 
 disp('Done calibrating radiances')
 disp('Now doing plotting, etc.')
@@ -47,10 +49,8 @@ radiances_cal  = reshape(radiances_cal,nchan,nobs)';
 % Convert
 [nx ny ] = size(radiances);
 
-% Get fl1c  (could simplify this for jpl package...)
-g = load('Jan20_2010.mat');
-g2 = load('sarta_chans_for_l1c');
-fl1c = g.freq(g2.ichan);
+% Get fl1c 
+load fl1c
 
 btobs = NaN(nx,ny);   
 btobs_cal = NaN(nx,ny);
@@ -70,7 +70,7 @@ plot(btobs(:,ch2)-btobs_cal(:,ch2))
 grid;
 xlabel('Scene Linear Index')
 ylabel('L1c - L1c Cal in K')
-hl = legend([num2str(fl1c(ch1),5) ' cm-1'],[num2str(fl1c(ch2),5) ' cm-1'])
+hl = legend([num2str(fl1c(ch1),5) ' cm-1'],[num2str(fl1c(ch2),5) ' cm-1']);
 
 figure
 plot(lxtr,btobs(:,ch1)-btobs_cal(:,ch1),'.')
@@ -80,7 +80,7 @@ grid;
 xlabel('Xtrack');
 ylabel('L1c - L1c Cal in K')
 xlim([0 91])
-hl = legend([num2str(fl1c(ch1),5) ' cm-1'],[num2str(fl1c(ch2),5) ' cm-1'])
+hl = legend([num2str(fl1c(ch1),5) ' cm-1'],[num2str(fl1c(ch2),5) ' cm-1']);
 
 figure
 plot(Latitude,btobs(:,ch1)-btobs_cal(:,ch1),'.')
@@ -89,7 +89,7 @@ plot(Latitude,btobs(:,ch2)-btobs_cal(:,ch2),'.')
 grid;
 ylabel('L1c - L1c Cal in K')
 xlabel('Latitude');
-hl = legend([num2str(fl1c(ch1),5) ' cm-1'],[num2str(fl1c(ch2),5) ' cm-1'])
+hl = legend([num2str(fl1c(ch1),5) ' cm-1'],[num2str(fl1c(ch2),5) ' cm-1']);
 
 figure
 scatter(Longitude,Latitude,30,btobs(:,ch1)-btobs_cal(:,ch1),'filled')
