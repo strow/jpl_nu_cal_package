@@ -131,3 +131,28 @@ ylabel('L1c - L1c cal in K')
 xlim([630 2700])
 title('Granule Mean B(T) of (L1c - L1c cal)')
 
+% % For L. Strow environment only
+% addpath /asl/matlib/plotutils/
+% figure(1);
+% aslprint('btdiff_vs_index')
+% 
+% figure(2)
+% aslprint('btdiff_vs_xtrack')
+% 
+% figure(3);
+% aslprint('btdiff_vs_latitude')
+% 
+% figure(4);
+% aslprint('ch1_btdiff_map',1)
+% 
+% figure(5)
+% aslprint('ch1_bt_map',1)
+% 
+% figure(6)
+% aslprint('ch2_btdiff_map',1)
+% 
+% figure(7)
+% aslprint('ch2_bt_map',1)
+% 
+% figure(8)
+% aslprint('granule_mean_btdiff')

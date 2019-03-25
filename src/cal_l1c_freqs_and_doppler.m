@@ -127,10 +127,9 @@ for i = 1:nx
 end
 
 tmp_btobs = NaN(nx,ny);
-d1 = load('umbc_shift_1c');
 % This is the slowest part of this code: 23.6 seconds
 for i=1:nx
-   tmp_btobs(i,:) = jpl_shift(l1b_btobs(i,:),freqall(i,:),fl1c,d1);
+   tmp_btobs(i,:) = jpl_shift(l1b_btobs(i,:),freqall(i,:),fl1c);
 end
 
 % Pre-allocation gives big speed up

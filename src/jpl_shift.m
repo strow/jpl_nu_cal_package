@@ -1,14 +1,16 @@
 %
 % Basic JPL shift function from the L1C ATBD
 %
-function Tb_resamp = jpl_shift(Tb_in, v_in, v_nom, d1);
+function Tb_resamp = jpl_shift(Tb_in, v_in, v_nom);
+
+persistent a b
+if isempty(a) | isempty(b)
+   load('umbc_shift_1c','a','b');
+end
 
 Tb_in = Tb_in(:);
 v_in = v_in(:);
 v_nom = v_nom(:);
-
-a = d1.a; 
-b = d1.b;
 
 dv = v_nom - v_in;
 
