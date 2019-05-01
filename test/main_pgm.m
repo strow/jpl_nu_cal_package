@@ -6,6 +6,8 @@ addpath ../src
 addpath ../static
 
 % Level 1c file name
+% Granule below is descending with equator passing, failed on earlier bad get_opi.m function
+% fn = '/asl/data/airs/L1c/2017/036/AIRS.2017.02.05.173.L1C.AIRS_Rad.v6.1.2.0.G17037143122.hdf';
 fn = 'AIRS.2017.11.09.226.L1C.AIRS_Rad.v6.1.2.0.G17314105227.hdf';
 
 % Frequency Calibrated Radiances

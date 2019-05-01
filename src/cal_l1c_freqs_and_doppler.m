@@ -73,22 +73,8 @@ junk = permute(junk,[3 2 1]);
 radiances  = reshape(junk,nchan,nobs)';
 
 clear junk
-%============================== Form Orbit Phase ==========================
-opi = NaN(nobs,1);
-% Descending from equator to S. Pole
-kd = (scan_node_type == 1 & Latitude <= 0);
-opi(kd) = abs(Latitude(kd)/2);
-% Descending from N. Pole to equator
-kd = (scan_node_type == 1 & Latitude >= 0);
-opi(kd) = 135 + 90/2 -Latitude(kd)/2;
-
-% Ascending from S. Pole to equator
-ka = (scan_node_type == 0 & Latitude < 0);
-opi(ka) = 45 + 90/2 + Latitude(ka)/2;
-% Ascending from equator to N. Pole
-ka = (scan_node_type == 0 & Latitude > 0);
-opi(ka) = 90 + Latitude(ka)/2;
-
+%=========================== Get Orbit Phase ==========================
+opi = get_opi(Latitude,scan_node_type);
 %=========================== Get Obs Frequency ==========================
 % Get indices into yoff matrix which handles 1:180 for opi
 % No interpolation of orbit phase, just use closest of 180 phases in table
@@ -107,7 +93,6 @@ tmp_freqall = freq(ib,:);
 
 % % Only shift true l1b channels in l1c
 % freqall = freqall(:,l1b_ind_in_l1c);
-
 %=========================== Get Doppler Shift ==========================
 dnu_ppm = doppler_jpl(scan_node_type,lxtr,satzen,satazi,sat_lat);
 dnu     = dnu_ppm*1E-6.*tmp_freqall;
@@ -141,23 +126,3 @@ end
 
 radiances_nucal_scan = reshape(radiances_nucal,90,135,2645);
 radiances_nucal_scan = permute(radiances_nucal_scan,[3 1 2]);
-
-%========================= Testing code for Orbit Phase ==========================
-% d = 3037;  % Roughly 1/4 of full granule
-% 
-% i1 = 1:d;
-% i2 = d+1:2*d;
-% i3 = 2*d+1:3*d;
-% i4 = 3*d+1:4*d;
-% 
-% lat = NaN(12150,1);
-% lat(i1) = linspace(   0,-90,length(i1));
-% lat(i2) = linspace( -90,0,  length(i1));
-% lat(i3) = linspace(   0,90, length(i1));
-% lat(i4) = linspace(  90,0,  length(i1));
-% 
-% scan_node_type = NaN(12150,1);
-% scan_node_type(i1) = 1;
-% scan_node_type(i2) = 0;
-% scan_node_type(i3) = 0;
-% scan_node_type(i4) = 1;
