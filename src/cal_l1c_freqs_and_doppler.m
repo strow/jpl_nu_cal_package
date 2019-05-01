@@ -78,7 +78,7 @@ opi = get_opi(Latitude,scan_node_type);
 %=========================== Get Obs Frequency ==========================
 % Get indices into yoff matrix which handles 1:180 for opi
 % No interpolation of orbit phase, just use closest of 180 phases in table
-[c,ia,ib] = unique(round(opi));
+[c,ia,ib] = unique(opi);
 % Will not worry about ab changing during a granule 
 ab_time = get_ab_state(nanmean(mtime));
 
@@ -86,7 +86,7 @@ ab_time = get_ab_state(nanmean(mtime));
 for i=1:length(c)
    yoff = get_yoff(nanmean(mtime));
    % Only do gmodel on unique orbit phases, fill these back to all scenes   
-   [f_lm,freq(i,:),m_lm,module] = gmodel(155.1325,yoff(:,round(opi(ia(i)))),ab_time);
+   [f_lm,freq(i,:),m_lm,module] = gmodel(155.1325,yoff(:,opi(ia(i))),ab_time);
 end
 % Fill in freqs for all scenes
 tmp_freqall = freq(ib,:);
