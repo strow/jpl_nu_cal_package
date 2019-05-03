@@ -1,26 +1,17 @@
-function ra = complex_bt2rad(fa,bt,k,ki,kj);
+function ra = complex_bt2rad(fl1c,bt,k,kr);
 
 % Here assume fa is a vector (fl1c)
 
 [nx ny ] = size(bt);
 
-% Any negative radiances?
-if length(ki) > 0
-   x = NaN(1,length(ki));
-   for i=1:length(ki)
-      x(i) = bt2rad(fa(kj(i)),bt(ki(i),kj(i)));
-   end
-end;
-bt(ki,kj) = NaN;   % Get rid of negative radiances for next loop
-
-% Now do the positive radiances
-ra = NaN(nx,ny);
+% Convert fa to matrix
+fa = ones(nx,ny);
 for i = 1:nx
-   ra(i,:) = bt2rad(fa,bt(i,:));
+   fa(i,:) = fl1c;
 end
-ra = complex(ra);
 
-% If there were any negative radiances, their bt is in x
-if length(ki) > 0
-   ra(k) = x;
-end
+ra = NaN(nx,ny);
+
+ra(kr) = bt2rad(fa(kr),bt(kr));
+
+ra(k) = bt2rad(fa(k),bt(k));

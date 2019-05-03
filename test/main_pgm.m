@@ -8,8 +8,8 @@ addpath ../static
 % Level 1c file name
 % Granule below is descending with equator passing, failed on earlier bad get_opi.m function
 % fn = '/asl/data/airs/L1c/2017/036/AIRS.2017.02.05.173.L1C.AIRS_Rad.v6.1.2.0.G17037143122.hdf';
-fn = 'AIRS.2017.11.09.226.L1C.AIRS_Rad.v6.1.2.0.G17314105227.hdf';
-
+% fn = 'AIRS.2017.11.09.226.L1C.AIRS_Rad.v6.1.2.0.G17314105227.hdf';
+fn = 'AIRS.2019.01.01.001.L1C.AIRS_Rad.v6.1.2.0.G19001103741.hdf';
 % Frequency Calibrated Radiances
 tic
 radiances_cal = cal_l1c_freqs_and_doppler(fn);
@@ -54,12 +54,16 @@ radiances_cal  = reshape(radiances_cal,nchan,nobs)';
 % Get fl1c 
 load fl1c
 
-btobs = NaN(nx,ny);   
-btobs_cal = NaN(nx,ny);
-for i = 1:nx
- btobs(i,:) = rad2bt(fl1c,radiances(i,:));
- btobs_cal(i,:) = rad2bt(fl1c,radiances_cal(i,:));
-end
+% btobs = NaN(nx,ny);   
+% btobs_cal = NaN(nx,ny);
+% for i = 1:nx
+%  btobs(i,:) = rad2bt(fl1c,radiances(i,:));
+%  btobs_cal(i,:) = rad2bt(fl1c,radiances_cal(i,:));
+% end
+fl1c_mat = repmat(fl1c',12150,1);
+
+btobs = complex_rad2bt(fl1c_mat,radiances);
+btobs_cal = complex_rad2bt(fl1c_mat,radiances_cal);
 
 % Pick 2 channels on different sides of a line
 ch1 = 300;
