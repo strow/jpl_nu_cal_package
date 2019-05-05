@@ -1,4 +1,4 @@
-function [radiances_nucal_scan] = cal_l1c_freqs_and_doppler(fn);
+function [radiances_nucal_scan, yoff_scan_line] = cal_l1c_freqs_and_doppler(fn);
 %
 % Returns L1c radiances (90x135) corrected for frequency shift due to the 
 % instrument drifts and the Doppler effect.  The returned frequencies are
@@ -27,10 +27,13 @@ end
 % i0=find( state == 0);  % Indices of "good" FOVs
 % n0=length(i0);
 
+% Check to see if this is a short granule
+num_scanlines = cell2mat(hdfread(fn,'num_scanlines'));
+
 % Granule length
-nobs = 90*135;
+nobs = 90*num_scanlines;
 nxtrack = 90;
-natrack = 135;
+natrack = num_scanlines;
 nobs = nxtrack*natrack;
 nchan = 2645;
 
@@ -81,10 +84,17 @@ opi = get_opi(Latitude,scan_node_type);
 [c,ia,ib] = unique(opi);
 % Will not worry about ab changing during a granule 
 ab_time = get_ab_state(nanmean(mtime));
+yoff = get_yoff(nanmean(mtime));
+
+% Get mean yoff per scanline for Evan
+for i=1:natrack
+   k = find((lxtr == 45 | lxtr == 46) & latr == i);
+   scan_line_opi(i) = nanmean(opi(k));
+end
+yoff_scan_line = yoff(:,round(scan_line_opi));
 
 % Get freq, the actual (computed) frequencies for the observation at mtime
 for i=1:length(c)
-   yoff = get_yoff(nanmean(mtime));
    % Only do gmodel on unique orbit phases, fill these back to all scenes   
    [f_lm,freq(i,:),m_lm,module] = gmodel(155.1325,yoff(:,opi(ia(i))),ab_time);
 end
@@ -157,5 +167,5 @@ end
 % Plus special call to avoid slow downs, same issue as for rad2bt
 radiances_nucal = complex_bt2rad(fl1c,tmp_btobs,k,kr);
 
-radiances_nucal_scan = reshape(radiances_nucal,90,135,2645);
+radiances_nucal_scan = reshape(radiances_nucal,90,num_scanlines,2645);
 radiances_nucal_scan = permute(radiances_nucal_scan,[3 1 2]);

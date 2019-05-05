@@ -8,11 +8,12 @@ addpath ../static
 % Level 1c file name
 % Granule below is descending with equator passing, failed on earlier bad get_opi.m function
 % fn = '/asl/data/airs/L1c/2017/036/AIRS.2017.02.05.173.L1C.AIRS_Rad.v6.1.2.0.G17037143122.hdf';
-% fn = 'AIRS.2017.11.09.226.L1C.AIRS_Rad.v6.1.2.0.G17314105227.hdf';
-fn = 'AIRS.2019.01.01.001.L1C.AIRS_Rad.v6.1.2.0.G19001103741.hdf';
+fn = 'AIRS.2017.11.09.226.L1C.AIRS_Rad.v6.1.2.0.G17314105227.hdf';
+% fn = 'AIRS.2019.01.01.001.L1C.AIRS_Rad.v6.1.2.0.G19001103741.hdf';
+%fn = 'shortgran.hdf';
 % Frequency Calibrated Radiances
 tic
-radiances_cal = cal_l1c_freqs_and_doppler(fn);
+[radiances_cal, yoff_scan_line] = cal_l1c_freqs_and_doppler(fn);
 toc
 
 disp('Done calibrating radiances')
@@ -20,9 +21,9 @@ disp('Now doing plotting, etc.')
 
 %==================== Rest of this File is Validation/Plots ===================
 % Granule length
-nobs = 90*135;
+num_scanlines = cell2mat(hdfread(fn,'num_scanlines'));
+natrack = num_scanlines;
 nxtrack = 90;
-natrack = 135;
 nobs = nxtrack*natrack;
 nchan = 2645;
 
@@ -36,7 +37,7 @@ clear junk;
 lxtr = reshape(xtr',nobs,1);
 latr = reshape(atr',nobs,1);
 
-% 90 x 135 variables
+% 90 x natrack variables
 junk = hdfread(fn,'Latitude');
 Latitude = reshape(junk',nobs,1);
 
@@ -60,7 +61,7 @@ load fl1c
 %  btobs(i,:) = rad2bt(fl1c,radiances(i,:));
 %  btobs_cal(i,:) = rad2bt(fl1c,radiances_cal(i,:));
 % end
-fl1c_mat = repmat(fl1c',12150,1);
+fl1c_mat = repmat(fl1c',nobs,1);
 
 btobs = complex_rad2bt(fl1c_mat,radiances);
 btobs_cal = complex_rad2bt(fl1c_mat,radiances_cal);
