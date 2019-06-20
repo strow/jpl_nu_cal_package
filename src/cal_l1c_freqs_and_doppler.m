@@ -169,3 +169,4 @@ radiances_nucal = complex_bt2rad(fl1c,tmp_btobs,k,kr);
 
 radiances_nucal_scan = reshape(radiances_nucal,90,num_scanlines,2645);
 radiances_nucal_scan = permute(radiances_nucal_scan,[3 1 2]);
+radiances_nucal_scan = real(radiances_nucal_scan);
