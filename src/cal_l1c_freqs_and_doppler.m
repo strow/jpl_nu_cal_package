@@ -53,6 +53,12 @@ junk = repmat(junk(:),1,90);
 sat_lat = reshape(junk',nobs,1);
 
 % 90 x 135 variables
+junk = hdfread(fn,'state');
+state = reshape(junk',nobs,1);
+
+% Flag bad data
+bad = find( state ~= 0);
+
 junk = hdfread(fn,'Latitude');
 Latitude = reshape(junk',nobs,1);
 
@@ -70,6 +76,7 @@ junk = hdfread(fn,'satazi');
 satazi = reshape(junk',nobs,1);
 
 mtime = tai2dtime(rtime);
+mtime(bad) = NaT;
 
 junk = hdfread(fn, 'radiances');
 junk = permute(junk,[3 2 1]);
@@ -166,7 +173,9 @@ end
 % Matlab will preserve negative radiances, says testing, do NOT ask for real part of tmp_btobs
 % Plus special call to avoid slow downs, same issue as for rad2bt
 radiances_nucal = complex_bt2rad(fl1c,tmp_btobs,k,kr);
+radiances_nucal = real(radiances_nucal);
+radiances_nucal(bad) = -9999;
 
 radiances_nucal_scan = reshape(radiances_nucal,90,num_scanlines,2645);
 radiances_nucal_scan = permute(radiances_nucal_scan,[3 1 2]);
-radiances_nucal_scan = real(radiances_nucal_scan);
+
