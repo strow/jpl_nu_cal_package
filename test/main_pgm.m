@@ -7,8 +7,11 @@ addpath ../static
 
 % Level 1c file name
 % Granule below is descending with equator passing, failed on earlier bad get_opi.m function
-% fn = '/asl/data/airs/L1c/2017/036/AIRS.2017.02.05.173.L1C.AIRS_Rad.v6.1.2.0.G17037143122.hdf';
-fn = 'AIRS.2017.11.09.226.L1C.AIRS_Rad.v6.1.2.0.G17314105227.hdf';
+%fn = '/asl/data/airs/L1C/2002/249/AIRS.2002.09.06.176.L1C.AIRS_Rad.v6.1.2.0.G16315005300.hdf';
+%fn = '/asl/data/airs/L1C/2002/249/AIRS.2002.09.06.160.L1C.AIRS_Rad.v6.1.2.0.G16315004354.hdf';
+
+fn = '/asl/data/airs/L1C/2019/001/AIRS.2019.01.01.009.L1C.AIRS_Rad.v6.1.2.0.G19001103631.hdf';
+%fn = 'AIRS.2017.11.09.226.L1C.AIRS_Rad.v6.1.2.0.G17314105227.hdf';
 % fn = 'AIRS.2019.01.01.001.L1C.AIRS_Rad.v6.1.2.0.G19001103741.hdf';
 %fn = 'shortgran.hdf';
 % Frequency Calibrated Radiances
@@ -46,6 +49,9 @@ Longitude = reshape(junk',nobs,1);
 
 junk = hdfread(fn,'satzen');
 satzen = reshape(junk',nobs,1);
+
+junk = hdfread(fn,'state');
+state = reshape(junk',nobs,1);
 
 radiances_cal  = reshape(radiances_cal,nchan,nobs)';
 

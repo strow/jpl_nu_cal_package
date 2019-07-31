@@ -11,7 +11,8 @@ k = find(xtrack >= airs_first_xtrack_past_nadir);
 satzen(k) = -satzen(k);
 
 % Doppler shift
-dnu_ppm = 1E6*((omega*Re)/c).*sin(deg2rad(satzen)).*cos(deg2rad(sat_lat)).*abs(sin(deg2rad(satazi)));
+% Minus below because we are shifting the observed spectrum back to where it should be
+dnu_ppm = -1E6*((omega*Re)/c).*sin(deg2rad(satzen)).*cos(deg2rad(sat_lat)).*abs(sin(deg2rad(satazi)));
 
 % Sign change for descending
 idesc = (scan_node_type == 1);
