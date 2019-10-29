@@ -10,9 +10,9 @@ addpath ../static
 %fn = '/asl/data/airs/L1C/2002/249/AIRS.2002.09.06.176.L1C.AIRS_Rad.v6.1.2.0.G16315005300.hdf';
 %fn = '/asl/data/airs/L1C/2002/249/AIRS.2002.09.06.160.L1C.AIRS_Rad.v6.1.2.0.G16315004354.hdf';
 
-fn = '/asl/data/airs/L1C/2019/001/AIRS.2019.01.01.009.L1C.AIRS_Rad.v6.1.2.0.G19001103631.hdf';
-%fn = 'AIRS.2017.11.09.226.L1C.AIRS_Rad.v6.1.2.0.G17314105227.hdf';
-% fn = 'AIRS.2019.01.01.001.L1C.AIRS_Rad.v6.1.2.0.G19001103741.hdf';
+%fn = '/asl/data/airs/L1C/2019/001/AIRS.2019.01.01.009.L1C.AIRS_Rad.v6.1.2.0.G19001103631.hdf';
+fn = 'AIRS.2017.11.09.226.L1C.AIRS_Rad.v6.1.2.0.G17314105227.hdf';
+%fn = 'AIRS.2019.01.01.001.L1C.AIRS_Rad.v6.1.2.0.G19001103741.hdf';
 %fn = 'shortgran.hdf';
 % Frequency Calibrated Radiances
 tic
